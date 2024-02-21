@@ -37,6 +37,7 @@ def PSNR(og_img_path: str, db_img_path: str):
     return psnr
 
 if __name__ == "__main__":
+    # testing
     image_og = r"C:\Users\tatzb\Desktop\Work,Study\01 - Studium\02_Master (Data Science)\1. Semester\Machine Learning\Projekte\Machine-Learning\03_Deep_Learning\Machine-Learning-Project-3\Code\Image Processing\coco_images\COCO_train2014_000000000625.jpg"
     image_blurred = r"C:\Users\tatzb\Desktop\Work,Study\01 - Studium\02_Master (Data Science)\1. Semester\Machine Learning\Projekte\Machine-Learning\03_Deep_Learning\Machine-Learning-Project-3\Code\Image Processing\coco_images\blurred_images_box\blurred_COCO_train2014_000000000625.jpg"
 
