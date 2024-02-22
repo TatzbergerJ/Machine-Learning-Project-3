@@ -38,7 +38,7 @@ group_device.add_argument('--world_size', type=int, default=1, help='world_size 
 
 # Data
 group_data = parser.add_argument_group('Data specs')
-group_data.add_argument('--data_root', type=str, default='~/Research/dataset', help='dataset root location')
+group_data.add_argument('--data_root', type=str, default='../../Image Processing/coco_images/blurred_images_simple', help='dataset root location')
 group_data.add_argument('--dataset', type=str, default=None, help='training/validation/test dataset name, has priority if not None')
 group_data.add_argument('--data_train', type=str, default='GOPRO_Large', help='training dataset name')
 group_data.add_argument('--data_val', type=str, default=None, help='validation dataset name')
