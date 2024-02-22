@@ -73,7 +73,7 @@ def simple_blur(image_path, output_dir="blurred_images_simple"):
     img = Image.open(image_path)
     blurred_img = img.filter(ImageFilter.BLUR)
 
-    output_path = construct_output_path(image_path, output_dir)
+    output_path = construct_output_path(image_path, output_dir, prefix="simple_blur_")
     # saving blur image
     blurred_img.save(output_path)
     print("Blurred image saved at:", output_path)
@@ -83,7 +83,7 @@ def box_blur(image_path, radius=2, output_dir="blurred_images_box"):
     img = Image.open(image_path)
     blurred_img = img.filter(ImageFilter.BoxBlur(radius))
 
-    output_path = construct_output_path(image_path, output_dir)
+    output_path = construct_output_path(image_path, output_dir, prefix="box_blur_")
     # saving blur image
     blurred_img.save(output_path)
     print("Blurred image saved at:", output_path)
@@ -93,7 +93,7 @@ def gaussian_blur(image_path, radius=2, output_dir="blurred_images_gaussian"):
     img = Image.open(image_path)
     blurred_img = img.filter(ImageFilter.GaussianBlur(radius))
 
-    output_path = construct_output_path(image_path, output_dir)
+    output_path = construct_output_path(image_path, output_dir, prefix="gauss_blur_")
     # saving blur image
     blurred_img.save(output_path)
     print("Blurred image saved at:", output_path)
@@ -130,7 +130,7 @@ def motion_blur(image_path, output_dir="blurred_images_motion"):
     blurred_img = cv2.addWeighted(vertical_mb, 0.5, horizonal_mb, 0.5, 0)
 
     # Construct the output path
-    output_path = construct_output_path(image_path, output_dir)
+    output_path = construct_output_path(image_path, output_dir, prefix="motion_blur_")
 
     # Save the blurred image
     cv2.imwrite(output_path, blurred_img)
@@ -138,28 +138,28 @@ def motion_blur(image_path, output_dir="blurred_images_motion"):
     print("Blurred image saved at:", output_path)
 
 
-    def test_blur_funcs():
-        ###### TESTING BLURRING #########
-        input_image_path = "./coco_images/COCO_train2014_000000000625.jpg"
-        # simple blur
-        print("Applying simple blur...")
-        simple_blur(input_image_path)
-        print()
+def test_blur_funcs():
+    ###### TESTING BLURRING #########
+    input_image_path = "./coco_images/COCO_train2014_000000000625.jpg"
+    # simple blur
+    print("Applying simple blur...")
+    simple_blur(input_image_path)
+    print()
 
-        # box blur
-        print("Applying box blur...")
-        box_blur(input_image_path, radius=2)
-        print()
+    # box blur
+    print("Applying box blur...")
+    box_blur(input_image_path, radius=2)
+    print()
 
-        #  Gaussian blur
-        print("Applying Gaussian blur...")
-        gaussian_blur(input_image_path, radius=2)
-        print()
+    #  Gaussian blur
+    print("Applying Gaussian blur...")
+    gaussian_blur(input_image_path, radius=2)
+    print()
 
-        #  motion blur
-        print("Applying motion blur...")
-        motion_blur(input_image_path)
-        print()
+    #  motion blur
+    print("Applying motion blur...")
+    motion_blur(input_image_path)
+    print()
 
 
 def main():
