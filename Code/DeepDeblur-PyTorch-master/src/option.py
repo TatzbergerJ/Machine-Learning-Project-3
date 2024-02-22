@@ -38,7 +38,7 @@ group_device.add_argument('--world_size', type=int, default=1, help='world_size 
 
 # Data
 group_data = parser.add_argument_group('Data specs')
-group_data.add_argument('--data_root', type=str, default='../../Image Processing/coco_images/blurred_images_simple', help='dataset root location')
+group_data.add_argument('--data_root', type=str, default='../../Image Processing/coco_images/blurred_images_gaussian', help='dataset root location')
 group_data.add_argument('--dataset', type=str, default=None, help='training/validation/test dataset name, has priority if not None')
 group_data.add_argument('--data_train', type=str, default='GOPRO_Large', help='training dataset name')
 group_data.add_argument('--data_val', type=str, default=None, help='validation dataset name')
@@ -84,7 +84,7 @@ group_action.add_argument('--do_train', type=str2bool, default=True, help='do tr
 group_action.add_argument('--do_validate', type=str2bool, default=True, help='do validate the model')
 group_action.add_argument('--do_test', type=str2bool, default=True, help='do test the model')
 group_action.add_argument('--demo', type=str2bool, default=False, help='demo')
-group_action.add_argument('--demo_input_dir', type=str, default='../../Image Processing/coco_images/blurred_images_simple', help='demo input directory')
+group_action.add_argument('--demo_input_dir', type=str, default='../../Image Processing/coco_images/blurred_images_gaussian', help='demo input directory')
 group_action.add_argument('--demo_output_dir', type=str, default='../../Image Processing/coco_images/test_output', help='demo output directory')
 
 # Optimization
