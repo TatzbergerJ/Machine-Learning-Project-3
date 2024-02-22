@@ -85,7 +85,7 @@ group_action.add_argument('--do_validate', type=str2bool, default=True, help='do
 group_action.add_argument('--do_test', type=str2bool, default=True, help='do test the model')
 group_action.add_argument('--demo', type=str2bool, default=False, help='demo')
 group_action.add_argument('--demo_input_dir', type=str, default='../../Image Processing/coco_images/blurred_images_simple', help='demo input directory')
-group_action.add_argument('--demo_output_dir', type=str, default='', help='demo output directory')
+group_action.add_argument('--demo_output_dir', type=str, default='../../Image Processing/coco_images/test_output', help='demo output directory')
 
 # Optimization
 group_optim = parser.add_argument_group('Optimization specs')
