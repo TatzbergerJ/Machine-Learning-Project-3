@@ -36,10 +36,30 @@ def PSNR(og_img_path: str, db_img_path: str):
     psnr = 20*log10(max_pixel/sqrt(mse))
     return psnr
 
-if __name__ == "__main__":
-    # testing
-    image_og = r"C:\Users\tatzb\Desktop\Work,Study\01 - Studium\02_Master (Data Science)\1. Semester\Machine Learning\Projekte\Machine-Learning\03_Deep_Learning\Machine-Learning-Project-3\Code\Image Processing\coco_images\COCO_train2014_000000000625.jpg"
-    image_blurred = r"C:\Users\tatzb\Desktop\Work,Study\01 - Studium\02_Master (Data Science)\1. Semester\Machine Learning\Projekte\Machine-Learning\03_Deep_Learning\Machine-Learning-Project-3\Code\Image Processing\coco_images\blurred_images_box\blurred_COCO_train2014_000000000625.jpg"
+def calculate_folder_psnr(folder1: str, folder2: str):
+    psnr_values = []
+    for filename in os.listdir(folder1):
+        og_img_path = os.path.join(folder1, filename)
+        db_img_path = os.path.join(folder2, filename)
 
-    test = PSNR(image_og, image_blurred)
-    print(test)
+        # check if the file exists in the second folder
+        if not os.path.exists(db_img_path):
+            print(f"File {filename} not found in folder {folder2}")
+            continue
+
+        psnr = PSNR(og_img_path, db_img_path)
+        psnr_values.append((filename, psnr))
+        print(f"PSNR for {filename}: {psnr:.2f} dB")
+
+    return psnr_values
+
+if __name__ == "__main__":
+
+
+    folder1 = "/coco_images/blurred_images_gaussian"
+    folder2 = "/coco_images/output_gopro_l1_gaussian"
+
+
+    psnr_values = calculate_folder_psnr(folder1, folder2)
+    average_psnr = sum(psnr for _, psnr in psnr_values) / len(psnr_values)
+    print(f"Average PSNR: {average_psnr:.2f} dB")
