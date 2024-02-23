@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
 
     folder1 = "coco_images/blurred_images_gaussian"
-    folder2 = "coco_images/output_gopro_l1_gaussian"
+    folder2 = "coco_images/output_reds_l1_amp_pretrained_gaussian"
 
 
     psnr_values = calculate_folder_psnr(folder1, folder2)
