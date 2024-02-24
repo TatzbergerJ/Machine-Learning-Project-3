@@ -163,8 +163,9 @@ def test_blur_funcs():
 
 
 def main():
+    """
     #### GETTING IMAGES ######
-    '''
+
     # download annotations
     download_annotations(annotations_url, annotations_save_path)
 
@@ -178,8 +179,9 @@ def main():
     download_images(coco, images_save_dir)
 
     # test blurring funcitons
-    test_blur_funcs()
-    '''
+   # test_blur_funcs()
+
+    """
 
     image_paths = glob.glob(r".\coco_images\*.jpg")     # getting a list of all .jpeg files
 
