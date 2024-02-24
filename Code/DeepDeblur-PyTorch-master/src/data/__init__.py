@@ -30,7 +30,7 @@ class Data():
 
         def _get_data_loader(mode='train'):
             dataset_name = self.dataset_name[mode]
-            dataset = import_module(dataset_name.lower())
+            dataset = import_module('data.' + dataset_name.lower())
             dataset = getattr(dataset, dataset_name)(args, mode)
 
             if mode == 'train':
