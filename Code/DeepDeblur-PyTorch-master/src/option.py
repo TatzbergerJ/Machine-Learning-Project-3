@@ -39,10 +39,10 @@ group_device.add_argument('--world_size', type=int, default=1, help='world_size 
 # Data
 group_data = parser.add_argument_group('Data specs')
 group_data.add_argument('--data_root', type=str, default='../../Image Processing/coco_images/blurred_images_motion', help='dataset root location')
-group_data.add_argument('--dataset', type=str, default='../../Image Processing/coco_images/blurred_images_motion', help='training/validation/test dataset name, has priority if not None')
-group_data.add_argument('--data_train', type=str, default='train', help='training dataset name')
-group_data.add_argument('--data_val', type=str, default='val', help='validation dataset name')
-group_data.add_argument('--data_test', type=str, default='test', help='test dataset name')
+group_data.add_argument('--dataset', type=str, default='blurred_images_motion', help='training/validation/test dataset name, has priority if not None')
+group_data.add_argument('--data_train', type=str, default='../../Image Processing/coco_images/blurred_images_motion/train', help='training dataset name')
+group_data.add_argument('--data_val', type=str, default='../../Image Processing/coco_images/blurred_images_motion/val', help='validation dataset name')
+group_data.add_argument('--data_test', type=str, default='../../Image Processing/coco_images/blurred_images_motion/test', help='test dataset name')
 group_data.add_argument('--blur_key', type=str, default='blur_gamma', choices=('blur', 'blur_gamma'), help='blur type from camera response function for GOPRO_Large dataset')
 group_data.add_argument('--rgb_range', type=int, default=255, help='RGB pixel value ranging from 0')
 
