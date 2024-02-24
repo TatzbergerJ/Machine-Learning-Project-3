@@ -39,7 +39,7 @@ group_device.add_argument('--world_size', type=int, default=1, help='world_size 
 # Data
 group_data = parser.add_argument_group('Data specs')
 group_data.add_argument('--data_root', type=str, default='../../Image Processing/coco_images/blurred_images_motion', help='dataset root location')
-group_data.add_argument('--dataset', type=str, default='blurred_images_motion', help='training/validation/test dataset name, has priority if not None')
+group_data.add_argument('--dataset', type=str, default=None, help='training/validation/test dataset name, has priority if not None')
 group_data.add_argument('--data_train', type=str, default='train', help='training dataset name')
 group_data.add_argument('--data_val', type=str, default='val', help='validation dataset name')
 group_data.add_argument('--data_test', type=str, default='test', help='test dataset name')
