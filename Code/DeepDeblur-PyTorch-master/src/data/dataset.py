@@ -4,7 +4,7 @@ import imageio
 import numpy as np
 import torch.utils.data as data
 
-from data import common
+from torch.utils.data import common
 
 from utils import interact
 
