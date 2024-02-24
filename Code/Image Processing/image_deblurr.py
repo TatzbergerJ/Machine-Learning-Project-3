@@ -6,6 +6,8 @@ import zipfile
 import glob
 from pycocotools.coco import COCO
 from PIL import Image, ImageFilter
+import random
+import shutil
 
 # coco annotations URL
 annotations_url = 'http://images.cocodataset.org/annotations/annotations_trainval2014.zip'
@@ -162,6 +164,45 @@ def test_blur_funcs():
     print()
 
 
+def split_dataset(root_folder, train_ratio=0.8, val_ratio=0.1, test_ratio=0.1):
+    # create folders for train, val, and test sets
+    train_folder = os.path.join(root_folder, 'train')
+    val_folder = os.path.join(root_folder, 'val')
+    test_folder = os.path.join(root_folder, 'test')
+    os.makedirs(train_folder, exist_ok=True)
+    os.makedirs(val_folder, exist_ok=True)
+    os.makedirs(test_folder, exist_ok=True)
+
+    # listing all image files in the root folder
+    image_files = [f for f in os.listdir(root_folder) if f.endswith('.jpg') or f.endswith('.png')]
+
+    # shuffle the image files randomly
+    random.shuffle(image_files)
+
+    # Calculate the number of images for each set
+    num_images = len(image_files)
+    num_train = int(train_ratio * num_images)
+    num_val = int(val_ratio * num_images)
+    num_test = num_images - num_train - num_val
+
+    # assigning images to train, val, and test sets
+    train_images = image_files[:num_train]
+    val_images = image_files[num_train:num_train + num_val]
+    test_images = image_files[num_train + num_val:]
+
+    # relocate images to their respective folders
+    move_images(train_images, root_folder, train_folder)
+    move_images(val_images, root_folder, val_folder)
+    move_images(test_images, root_folder, test_folder)
+
+
+def move_images(images, source_folder, destination_folder):
+    for image in images:
+        source_path = os.path.join(source_folder, image)
+        destination_path = os.path.join(destination_folder, image)
+        shutil.move(source_path, destination_path)
+
+
 def main():
     """
     #### GETTING IMAGES ######
@@ -181,7 +222,7 @@ def main():
     # test blurring funcitons
    # test_blur_funcs()
 
-    """
+
 
     image_paths = glob.glob(r".\coco_images\*.jpg")     # getting a list of all .jpeg files
 
@@ -190,7 +231,9 @@ def main():
         box_blur(image)
         gaussian_blur(image)
         motion_blur(image)
-
+ """
+    root_folder = './coco_images/blurred_images_gaussian'
+    split_dataset(root_folder)
 
 if __name__ == "__main__":
     main()
