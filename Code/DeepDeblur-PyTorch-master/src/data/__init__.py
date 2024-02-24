@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data import SequentialSampler, RandomSampler
 from torch.utils.data.distributed import DistributedSampler
 from .sampler import DistributedEvalSampler
-
+'''
 class Data():
     def __init__(self, args):
 
@@ -72,6 +72,74 @@ class Data():
             if self.action[mode]:
                 self.loaders[mode] = _get_data_loader(mode)
                 print('===> Loading {} dataset: {}'.format(mode, self.dataset_name[mode]))
+            else:
+                self.loaders[mode] = None
+
+    def get_loader(self):
+        return self.loaders
+'''
+
+import os
+from torchvision import datasets, transforms
+
+class Data():
+    def __init__(self, args):
+
+        self.modes = ['train', 'val', 'test', 'demo']
+
+        self.action = {
+            'train': args.do_train,
+            'val':  args.do_validate,
+            'test': args.do_test,
+            'demo': args.demo
+        }
+
+        self.args = args
+
+        def _get_data_loader(mode='train'):
+            if mode == 'demo':
+                dataset_path = args.demo_input_dir
+            else:
+                dataset_path = os.path.join(args.data_root, mode)
+
+            # Define transform to preprocess the images if needed
+            transform = transforms.Compose([
+                transforms.Resize((256, 256)),  # Resize images to a fixed size if needed
+                transforms.ToTensor(),           # Convert images to PyTorch tensors
+                # Add more transforms as needed
+            ])
+
+            # Define dataset based on the mode
+            dataset = datasets.ImageFolder(dataset_path, transform=transform)
+
+            # Set batch size and sampler based on the mode
+            if mode == 'train':
+                batch_size = args.batch_size
+                sampler = None
+                shuffle = True
+            else:
+                batch_size = 1
+                sampler = None
+                shuffle = False
+
+            # Create a DataLoader for the dataset
+            loader = DataLoader(
+                dataset=dataset,
+                batch_size=batch_size,
+                shuffle=shuffle,
+                sampler=sampler,
+                num_workers=args.num_workers,
+                pin_memory=True,
+                drop_last=False,
+            )
+
+            return loader
+
+        self.loaders = {}
+        for mode in self.modes:
+            if self.action[mode]:
+                self.loaders[mode] = _get_data_loader(mode)
+                print('===> Loading {} dataset from: {}'.format(mode, os.path.join(args.data_root, mode)))
             else:
                 self.loaders[mode] = None
 
