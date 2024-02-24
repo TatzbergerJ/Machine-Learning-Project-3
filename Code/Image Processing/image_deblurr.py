@@ -8,16 +8,7 @@ from pycocotools.coco import COCO
 from PIL import Image, ImageFilter
 import random
 import shutil
-
-# coco annotations URL
-annotations_url = 'http://images.cocodataset.org/annotations/annotations_trainval2014.zip'
-
-# path to save annotations
-annotations_save_path = './annotations_trainval2014.zip'
-
-# path to images
-images_save_dir = './coco_images/'
-
+import random
 
 def download_annotations(url, save_path):
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
@@ -78,7 +69,7 @@ def simple_blur(image_path, output_dir="blurred_images_simple"):
     output_path = construct_output_path(image_path, output_dir, prefix="simple_blur_")
     # saving blur image
     blurred_img.save(output_path)
-    print("Blurred image saved at:", output_path)
+    #print("Blurred image saved at:", output_path)
 
 
 def box_blur(image_path, radius=2, output_dir="blurred_images_box"):
@@ -88,7 +79,7 @@ def box_blur(image_path, radius=2, output_dir="blurred_images_box"):
     output_path = construct_output_path(image_path, output_dir, prefix="box_blur_")
     # saving blur image
     blurred_img.save(output_path)
-    print("Blurred image saved at:", output_path)
+    #print("Blurred image saved at:", output_path)
 
 
 def gaussian_blur(image_path, radius=2, output_dir="blurred_images_gaussian"):
@@ -98,7 +89,7 @@ def gaussian_blur(image_path, radius=2, output_dir="blurred_images_gaussian"):
     output_path = construct_output_path(image_path, output_dir, prefix="gauss_blur_")
     # saving blur image
     blurred_img.save(output_path)
-    print("Blurred image saved at:", output_path)
+    #print("Blurred image saved at:", output_path)
 
 # take from https://www.geeksforgeeks.org/opencv-motion-blur-in-python/
 def motion_blur(image_path, output_dir="blurred_images_motion"):
@@ -137,7 +128,7 @@ def motion_blur(image_path, output_dir="blurred_images_motion"):
     # Save the blurred image
     cv2.imwrite(output_path, blurred_img)
 
-    print("Blurred image saved at:", output_path)
+    #print("Blurred image saved at:", output_path)
 
 
 def test_blur_funcs():
@@ -202,11 +193,7 @@ def move_images(images, source_folder, destination_folder):
         destination_path = os.path.join(destination_folder, image)
         shutil.move(source_path, destination_path)
 
-
-def main():
-    """
-    #### GETTING IMAGES ######
-
+def get_images(annotations_url, annotations_save_path, images_save_dir):
     # download annotations
     download_annotations(annotations_url, annotations_save_path)
 
@@ -219,11 +206,64 @@ def main():
     # download images
     download_images(coco, images_save_dir)
 
-    # test blurring funcitons
-   # test_blur_funcs()
+def main():
+    #### GETTING IMAGES ######
+    # coco annotations URL
+    annotations_url = 'http://images.cocodataset.org/annotations/annotations_trainval2014.zip'
+    # path to save annotations
+    annotations_save_path = './annotations_trainval2014.zip'
+    # path to images
+    images_save_dir = './coco_images/'
+
+    # get_images(annotations_url, annotations_save_path, images_save_dir)
+
+    #### TEST THE BLURRING FUNCTIONS ####
+    # test_blur_funcs()
+
+    #### CREATE BLURRED IMAGES ####
+    image_paths = glob.glob(r".\coco_images\*.jpg")  # getting a list of all .jpeg files
+
+    # shuffle and split the images into train, test and val-groups
+    random.shuffle(image_paths)
+    train_size = 0.7
+    test_size = 0.15
+    val_size = 1-train_size-test_size
+    n = len(image_paths)
+
+    train_paths = image_paths[:int(n*train_size)]
+    test_paths = image_paths[int(n*train_size):int(n*train_size)+int(n*test_size)]
+    val_paths = image_paths[int(n*train_size)+int(n*test_size):]
+
+    print("starting train")
+    for image in train_paths:
+        simple_blur(image, output_dir=r"train_test_val-splits\simple\train")
+        box_blur(image, output_dir=r"train_test_val-splits\box\train")
+        gaussian_blur(image, output_dir=r"train_test_val-splits\gaussian\train")
+        motion_blur(image, output_dir=r"train_test_val-splits\motion\train")
+        img = Image.open(image)
+        output_path = construct_output_path(image, output_dir=r"train_test_val-splits\sharp\train", prefix="sharp_")
+        img.save(output_path)
+    print("starting test")
+    for image in test_paths:
+        simple_blur(image, output_dir=r"train_test_val-splits\simple\test")
+        box_blur(image, output_dir=r"train_test_val-splits\box\test")
+        gaussian_blur(image, output_dir=r"train_test_val-splits\gaussian\test")
+        motion_blur(image, output_dir=r"train_test_val-splits\motion\test")
+        img = Image.open(image)
+        output_path = construct_output_path(image, output_dir=r"train_test_val-splits\sharp\test", prefix="sharp_")
+        img.save(output_path)
+    print("starting val")
+    for image in val_paths:
+        simple_blur(image, output_dir=r"train_test_val-splits\simple\val")
+        box_blur(image, output_dir=r"train_test_val-splits\box\val")
+        gaussian_blur(image, output_dir=r"train_test_val-splits\gaussian\val")
+        motion_blur(image, output_dir=r"train_test_val-splits\motion\val")
+        img = Image.open(image)
+        output_path = construct_output_path(image, output_dir=r"train_test_val-splits\sharp\val", prefix="sharp_")
+        img.save(output_path)
 
 
-
+    """
     image_paths = glob.glob(r".\coco_images\*.jpg")     # getting a list of all .jpeg files
 
     for image in image_paths:
