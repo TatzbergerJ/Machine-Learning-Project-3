@@ -43,17 +43,19 @@ def PSNR(og_img_path: str, db_img_path: str):
 
 def calculate_folder_psnr(folder1: str, folder2: str):
     psnr_values = []
-    for filename in os.listdir(folder1):
+    for filename in os.listdir(folder2):
 
         filename_no_extension, _ = os.path.splitext(filename)
-        db_filename = filename_no_extension + ".png"
+        db_filename = "original_blurred_" + filename_no_extension + ".jpg"
+        print(db_filename)
 
-        og_img_path = os.path.join(folder1, filename)
-        db_img_path = os.path.join(folder2, db_filename)
-
+        og_img_path = os.path.join(folder2, filename)
+        #print(og_img_path)
+        db_img_path = os.path.join(folder1, db_filename)
+        #print(db_img_path)
         # check if the file exists in the second folder
         if not os.path.exists(db_img_path):
-            print(f"File {filename} not found in folder {folder2}")
+            print(f"File {filename} not found in folder {folder1}")
             continue
 
         psnr = PSNR(og_img_path, db_img_path)
@@ -65,8 +67,8 @@ def calculate_folder_psnr(folder1: str, folder2: str):
 if __name__ == "__main__":
 
 
-    folder1 = "coco_images/blurred_images_gaussian"
-    folder2 = "coco_images/output_reds_l1_amp_pretrained_gaussian"
+    folder1 = "..\\image-deblurring-using-deep-learning\\test_data\\blurred_same_size_as_output"
+    folder2 = "..\\image-deblurring-using-deep-learning\\test_data\\test_deblurred_images_final_results"
 
 
     psnr_values = calculate_folder_psnr(folder1, folder2)
