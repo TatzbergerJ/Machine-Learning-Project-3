@@ -1,0 +1,11 @@
+we used python 3.10
+
+packages:
+PyTorch 1.6
+tqdm 4.66.2
+imageio 2.34
+scikit-image 0.22
+numpy 1.26.4
+matplotlib 3.8.3
+readline 6.2.4.2
+opencv-python 4.9.0.80
