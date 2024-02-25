@@ -1,3 +1,4 @@
+DeepDeblur-Pytorch part
 We ran the code on google colab, so we initially cloned our repo and directed to our folder where the main.py was.
 
 to use the different (pre-)trained models on a dataset use:
@@ -22,3 +23,25 @@ we also tried single gpu training:
 !python main.py --n_GPUs 1 --batch_size 8 which resulted in an error due to unlabeled data
 
 We set out data roots to the respective folder in options.py. Others settings, if needed, can also be done there.
+
+image-deblurring-using-deep-learning part
+
+Images for training must be under input/sharp
+All scripts have to be executed while being within the src folder inside the terminal
+
+To apply gaussian blurring for sharp images execute:
+
+python add_gaussian_blur.py
+
+To start training execute
+
+python deblur_ae.py --epochs num_of_epochs (default = 50)
+
+Trained model will be saved in outputs/model.pth
+
+To test trained model put testing data in "test_data" folder and adjust variables "test_dir" and "output_dir" in test.py
+to be paths to directory with test images and directory where output should be saved  correspondingly. Execute:
+
+python test.py
+
+
