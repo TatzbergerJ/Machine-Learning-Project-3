@@ -27,10 +27,10 @@ transform = transforms.Compose([
 ])
 # our testing of the model
 # Path to the directory containing test images
-test_dir = "../test_data/gaussian_blurred/"
+test_dir = "../test_data/motion_blurred/"
 
 # Output directory to save deblurred images
-output_dir = "../test_data/test_deblurred_images_final_results/"
+output_dir = "../test_data/test_motion/"
 
 # Ensure output directory exists
 os.makedirs(output_dir, exist_ok=True)

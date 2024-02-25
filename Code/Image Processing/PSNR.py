@@ -2,6 +2,8 @@ import numpy as np
 import os
 import cv2
 from math import log10, sqrt
+import re
+from typing import List
 
 
 def PSNR(og_img_path: str, db_img_path: str):
@@ -41,35 +43,65 @@ def PSNR(og_img_path: str, db_img_path: str):
     psnr = 20*log10(max_pixel/sqrt(mse))
     return psnr
 
-def calculate_folder_psnr(folder1: str, folder2: str):
+
+def calculate_folder_psnr(folder1: str, folder2: str) -> List[float]:
     psnr_values = []
-    for filename in os.listdir(folder2):
+    # Regular expression to extract image numbers
+    pattern = re.compile(r'_(\d+)\.jpg')
 
-        filename_no_extension, _ = os.path.splitext(filename)
-        db_filename = "original_blurred_" + filename_no_extension + ".jpg"
-        print(db_filename)
-
-        og_img_path = os.path.join(folder2, filename)
-        #print(og_img_path)
-        db_img_path = os.path.join(folder1, db_filename)
-        #print(db_img_path)
-        # check if the file exists in the second folder
-        if not os.path.exists(db_img_path):
-            print(f"File {filename} not found in folder {folder1}")
-            continue
-
-        psnr = PSNR(og_img_path, db_img_path)
-        psnr_values.append(psnr)
-        #print(f"PSNR for {filename}: {psnr:.2f} dB")
+    # Iterate over files in the first folder
+    for filename1 in os.listdir(folder1):
+        # Extract image number from filename in folder1
+        match1 = pattern.search(filename1)
+        if match1:
+            image_number1 = match1.group(1)  # Extract the first group (image number)
+            # Construct corresponding filename in folder2
+            filename2 = f"sharp_COCO_train2014_{image_number1}.jpg"
+            image_path2 = os.path.join(folder2, filename2)
+            # Check if the file exists in folder2
+            if os.path.exists(image_path2):
+                # Calculate PSNR and append to list
+                psnr = PSNR(os.path.join(folder1, filename1), image_path2)
+                psnr_values.append(psnr)
+            else:
+                print(f"File {filename2} not found in folder {folder2}")
+        else:
+            print(f"No image number found in filename {filename1}")
 
     return psnr_values
+
+def apply_transformation(test_dir, output_dir, transform):
+    """
+    Apply transformation to each image in the test directory and save the transformed image in the output directory.
+
+    Args:
+    - test_dir (str): Path to the directory containing the images to be transformed.
+    - output_dir (str): Path to the directory where the transformed images will be saved.
+    - transform (callable): Transformation function to apply to the images.
+    """
+    # Iterate over each image in the test directory
+    for filename in os.listdir(test_dir):
+        # Load the image
+        image_path = os.path.join(test_dir, filename)
+        image = cv2.imread(image_path)
+
+        # Apply the transformation
+        transformed_image = transform(image)
+
+        # Save the transformed image
+        transformed_image_path = os.path.join(output_dir, f"{filename}")
+        cv2.imwrite(transformed_image_path, transformed_image)
+
+
+def transform(image):
+    return cv2.resize(image, (224, 224))
+
 
 if __name__ == "__main__":
 
 
-    folder1 = "..\\image-deblurring-using-deep-learning\\test_data\\blurred_same_size_as_output"
+    folder1 = "..\\image-deblurring-using-deep-learning\\test_data\\sharp_gaussian_resized"
     folder2 = "..\\image-deblurring-using-deep-learning\\test_data\\test_deblurred_images_final_results"
-
 
     psnr_values = calculate_folder_psnr(folder1, folder2)
     #average_psnr = sum(psnr for _, psnr in psnr_values) / len(psnr_values)
@@ -80,3 +112,12 @@ if __name__ == "__main__":
         print(f"Average PSNR: {average_psnr:.2f} dB")
     else:
         print("No PSNR values calculated. Check input folders.")
+
+'''
+# resizing images to calculate psnr between sharp and deblurred 
+
+test_dir = "..\\image-deblurring-using-deep-learning\\test_data\\sharp"
+output_dir = "..\\image-deblurring-using-deep-learning\\test_data\\sharp_gaussian_resized"
+
+apply_transformation(test_dir, output_dir, transform)
+'''

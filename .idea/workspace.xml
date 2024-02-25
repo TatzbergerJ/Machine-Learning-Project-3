@@ -11,6 +11,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="2co5JDiYhyCgaDqfbUZDUdY5yPX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -18,7 +21,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Code" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Code/image-deblurring-using-deep-learning/test_data/sharp_motion" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ponom\Documents\GitHub\Machine-Learning-Project-3\Code\image-deblurring-using-deep-learning\test_data\sharp_motion" />
+      <recent name="C:\Users\ponom\Documents\GitHub\Machine-Learning-Project-3\Code\image-deblurring-using-deep-learning\test_data\motion_blurred" />
+    </key>
   </component>
   <component name="RunManager" selected="Python.PSNR">
     <configuration name="PSNR" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
