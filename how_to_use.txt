@@ -21,3 +21,4 @@ we also tried single gpu training:
 
 !python main.py --n_GPUs 1 --batch_size 8 which resulted in an error due to unlabeled data
 
+We set out data roots to the respective folder in options.py. Others settings, if needed, can also be done there.
