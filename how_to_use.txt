@@ -1,0 +1,23 @@
+We ran the code on google colab, so we initially cloned our repo and directed to our folder where the main.py was.
+
+to use the different (pre-)trained models on a dataset use:
+
+!python main.py --save_dir MODEL --demo true --demo_output_dir "output_dir"
+
+for MODEL insert the name of the model
+for "output_dir" chose the path of your output
+
+for example:
+
+!python main.py --save_dir GOPRO_L1 --demo true --demo_output_dir "../../Image Processing/coco_images/output_gopro_l1_gaussian"
+
+to use model GOPRO_L1 on the gaussian blurred images
+
+or use model GOPRO_L1_amp on box blurred images:
+
+!python main.py --save_dir GOPRO_L1_amp --demo true --demo_input_dir '../../Image Processing/coco_images/blurred_images_box' --demo_output_dir "../../Image Processing/coco_images/output_gopro_l1_amp_box"
+
+we also tried single gpu training:
+
+!python main.py --n_GPUs 1 --batch_size 8 which resulted in an error due to unlabeled data
+
